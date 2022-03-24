@@ -26,11 +26,19 @@ Program arguments :
 ## --rmempty
 
 Remove every line that is either empty, or composed of white space or tabulations.
+Example : `./smihelp --rmempty --in molecules.smi --out molecules_clean.smi`
 
 ## --tab2smi
 
 Format a tab separated values data file ordered in columns in another order, with a personal delimiter.
-e.g. `./smihelp --tab2smi --in molecules.tab --out molecules.smi --format "3,1" --delim "\t"` will create a new file containing columns 3 and 1 of the input file, separated with tabulations.
+Example : `./smihelp --tab2smi --in molecules.tab --out molecules.smi --format "3,1" --delim "\t"`
+
+## --embbedsmisdf
+
+**Not implemented yet**
+
+Embbed molecules from a **.smi** file in a **.sdf** file
+Example : `./smihelp --embbedsmisdf --sdf molecules.sdf --smi molecules.smi --out molecules_embbeded.smi`
 
 ___
 Enjoy ! 
