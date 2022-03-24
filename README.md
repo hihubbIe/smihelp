@@ -37,7 +37,7 @@ Example : `./smihelp --tab2smi --in molecules.tab --out molecules.smi --format "
 
 **Not implemented yet**
 
-Embbed molecules from a **.smi** file in a **.sdf** file  
+Embbed molecules from a **.smi** file in a **.sdf** file.  
 Example : `./smihelp --embbedsmisdf --sdf molecules.sdf --smi molecules.smi --out molecules_embbeded.smi`
 
 ___
