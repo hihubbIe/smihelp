@@ -1,8 +1,9 @@
 # smihelp - a small file manipulation helper 
 
-Facing obstacles while using SMILES related files, I decided to automatise as much of it as possible, thus justifying the existence of this very repository.
+Facing obstacles while using SMILES related files, I decided to automate as much of it as possible, thus justifying the very existence of this repository.  
+This program doesn't have one particular goal in mind, instead it is decorated with solutions to the different problems we face, and might not make sense.
 
-Setting up the program : (untested yet)
+Setting up the program : (untested)
 - `git clone https://github.com/hihubbIe/smihelp.git`
 - `cd smihelp`
 - `mkdir build`
