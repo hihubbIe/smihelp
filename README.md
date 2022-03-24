@@ -2,13 +2,13 @@
 
 Facing obstacles while using SMILES related files, I decided to automatise as much of it as possible, thus justifying the existence of this very repository.
 
-Setting up the program :
-- git clone https://github.com/hihubbIe/smihelp.git
-- cd tinyraytracer
-- mkdir build
-- cd build
-- cmake ..
-- make
+Setting up the program : (untested yet)
+- `git clone https://github.com/hihubbIe/smihelp.git`
+- `cd tinyraytracer`
+- `mkdir build`
+- `cd build`
+- `cmake ..`
+- `make`
 
 Program arguments :
 - `--help` : show help
