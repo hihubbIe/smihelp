@@ -4,7 +4,7 @@ Facing obstacles while using SMILES related files, I decided to automatise as mu
 
 Setting up the program : (untested yet)
 - `git clone https://github.com/hihubbIe/smihelp.git`
-- `cd tinyraytracer`
+- `cd smihelp`
 - `mkdir build`
 - `cd build`
 - `cmake ..`
