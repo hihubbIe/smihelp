@@ -33,5 +33,4 @@ Format a tab separated values data file ordered in columns in another order, wit
 e.g. `./smihelp --tab2smi --in molecules.tab --out molecules.smi --format "3,1" --delim "\t"` will create a new file containing columns 3 and 1 of the input file, separated with tabulations.
 
 ___
-This program is provided without any guarantee to work, and by using it, you agree doing it at your own risks.
 Enjoy ! 
