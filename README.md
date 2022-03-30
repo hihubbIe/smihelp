@@ -40,12 +40,12 @@ Facing obstacles while using SMILES related files, I decided to automate as much
 
 ## Commands
 
-**--rmempty**
+###--rmempty
 
 Remove every line that is either empty, or composed of white space or tabulations.  
 *Example* : `./smihelp --rmempty --in molecules.smi --out molecules_clean.smi`
 
-**--tab2smi**
+### --tab2smi
 
 Format a tab separated values data file ordered in columns in another order, with a personal delimiter.  
 *Example* : `./smihelp --tab2smi --in molecules.tab --out molecules.smi --format "3,1" --delim "\t"`
@@ -55,12 +55,12 @@ Possible delimiters :
 - `\n` : new line
 - Any other sequence can be used, but special characters will be escaped.
 
-**--sdfsmi**
+### --sdfsmi
 
 Embbed molecules from a **.smi** file in a **.sdf** file.  
 *Example* : `./smihelp --sdfsmi --sdf molecules.sdf --smi molecules.smi --out molecules_embbeded.smi`
 
-___
+##
 Made by **Ivan Alglave** as part of the *research initiation* class in *Master 1 informatique* at *Université de Lorraine*.
 
 Enjoy ! 
