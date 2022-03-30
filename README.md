@@ -4,7 +4,7 @@ Facing obstacles while using SMILES related files, I decided to automate as much
 
 ## Setting up the program
 
-**CMake :** (untested !)
+**CMake** (untested !)
 - `git clone https://github.com/hihubbIe/smihelp.git`
 - `cd smihelp`
 - `mkdir build`
@@ -14,14 +14,14 @@ Facing obstacles while using SMILES related files, I decided to automate as much
 
 **OR**
 
-**Visual Studio :**
+**Visual Studio**
 - `git clone https://github.com/hihubbIe/smihelp.git`
 - Open *Visual Studio*
 - `File` -> `Open` -> `Folder...`
 - Select `smihelp/`
 - Select configuration `smihelp.exe`
 
-## Program arguments :
+## Program arguments
 - `--help` : show help
 - `--rmempty` : remove empty lines
   - `--in <file in>` : input file
@@ -40,22 +40,22 @@ Facing obstacles while using SMILES related files, I decided to automate as much
 
 ## Commands
 
-**--rmempty :**
+**--rmempty**
 
 Remove every line that is either empty, or composed of white space or tabulations.  
 *Example* : `./smihelp --rmempty --in molecules.smi --out molecules_clean.smi`
 
-**--tab2smi :**
+**--tab2smi**
 
 Format a tab separated values data file ordered in columns in another order, with a personal delimiter.  
 *Example* : `./smihelp --tab2smi --in molecules.tab --out molecules.smi --format "3,1" --delim "\t"`
 
-**--embbedsmisdf :**
+**--embbedsmisdf**
 
 Embbed molecules from a **.smi** file in a **.sdf** file.  
 *Example* : `./smihelp --sdfsmi --sdf molecules.sdf --smi molecules.smi --out molecules_embbeded.smi`
 
 ___
-Made by Ivan Alglave as part of the *research initiation* class in *Master 1 informatique* at *Université de Lorraine*.
+Made by **Ivan Alglave** as part of the *research initiation* class in *Master 1 informatique* at *Université de Lorraine*.
 
 Enjoy ! 
