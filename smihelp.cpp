@@ -8,23 +8,28 @@
 
 using namespace std;
 
+typedef unordered_map<string, string> Args;
+
 bool DEBUG = false;
 
 const string MODE_RM_EMPTY_LINES = "--rmempty",
 MODE_FORMAT_TAB = "--tab2smi",
+MODE_EMBBED_SMI = "--sdfsmi",
 MODE_HELP = "--help";
 
 const string PARAM_FILE_INPUT = "--in",
 PARAM_FILE_OUTPUT = "--out",
 PARAM_FORMAT = "--format",
 PARAM_DELIMITER = "--delim",
-PARAM_DEBUG = "--debug";
+PARAM_DEBUG = "--debug",
+PARAM_SDF = "--sdf",
+PARAM_SMI = "--smi";
 
 const string VAL_TAB = "\t",
 VAL_ENDL = "\n";
 
-vector<string> ALL_MODES = { MODE_RM_EMPTY_LINES, MODE_FORMAT_TAB };
-vector<string> ALL_PARAMS = { PARAM_FILE_INPUT, PARAM_FILE_OUTPUT, PARAM_FORMAT, PARAM_DELIMITER, PARAM_DEBUG };
+vector<string> ALL_MODES = { MODE_RM_EMPTY_LINES, MODE_FORMAT_TAB, MODE_EMBBED_SMI, MODE_HELP };
+vector<string> ALL_PARAMS = { PARAM_FILE_INPUT, PARAM_FILE_OUTPUT, PARAM_FORMAT, PARAM_DELIMITER, PARAM_DEBUG, PARAM_SDF, PARAM_SMI };
 
 // '@' or '[' ']' -> "do not include isotopic or chiral marking in OpenBabel"
 vector<char> FORBIDDEN_CHARACTER_DP = { '@', '[', ']' };
@@ -41,13 +46,13 @@ void error(string err_msg, int err_code) {
 	exit(err_code);
 }
 
-bool isEmpty(string str) {
+bool is_string_empty(string str) {
 	for (char c : str) {
 		if (c != '\t' && c != ' ') {
 			return false;
 		}
-		return true;
 	}
+	return true;
 }
 
 vector<string> split(string str, string del) {
@@ -62,7 +67,7 @@ vector<string> split(string str, string del) {
 	return res;
 }
 
-unordered_map<string, string> map_args(int argc, char** argv) {
+Args map_args(int argc, char** argv) {
 	unordered_map<string, string> args;
 	for (int i = 1; i < argc; i++) {
 		const string arg = argv[i];
@@ -89,40 +94,42 @@ unordered_map<string, string> map_args(int argc, char** argv) {
 	return args;
 }
 
-bool check_DeepPurpose_validity(string str) {
+void check_DeepPurpose_validity(string str) {
 	for (char c : str) {
-		if (*find(FORBIDDEN_CHARACTER_DP.begin(), FORBIDDEN_CHARACTER_DP.end(), c) != c) return false;
+		if (*find(FORBIDDEN_CHARACTER_DP.begin(), FORBIDDEN_CHARACTER_DP.end(), c) == c) containsDeepPurposeIllegalCharacters = true;
 	}
-	return true;
 }
 
 void show_help() {
-	cout << "smihelp is a small helper program designed to help manipulating SMILES molecules" << endl;
-	cout << "\t--help : show help" << endl;
-	cout << "\t--rmempty : remove empty lines" << endl;
-	cout << "\t\t--in <file in>" << endl;
-	cout << "\t\t--out <file out>" << endl;
-	cout << "\t--tab2smi : convert tab file to smi" << endl;
-	cout << "\t\t--in <file in>" << endl;
-	cout << "\t\t--out <file out>" << endl;
-	cout << "\t\t--format <format> : columns to keep (e.g. \"3,1\" : columns 3 then 1)" << endl;
+	cout << "smihelp is a small helper program designed to help manipulating SMILES molecules \n\
+	\n\
+	\t--help : show help \n\n\
+	\t--rmempty : remove empty lines \n\
+		\t\t--in <file in> \n\
+		\t\t--out <file out> \n\n\
+	\t--tab2smi : convert tab file to smi \n\
+		\t\t--in <file in> \n\
+		\t\t--out <file out> \n\
+		\t\t--format <format> : columns to keep (e.g. \"3,1\" : columns 3 then 1) \n\n\
+	\t--sdfsmi : embbed smiles into sdf file \n\
+		\t\t--sdf <sdf file in> \n\
+		\t\t--smi <smi file in> \n\
+		\t\t--out <file out> \n";
 }
 
-void rm_empty_lines(unordered_map<string, string> args) {
+void rm_empty_lines(Args args) {
 	log("Entered mode rmempty");
 	ifstream in(args[PARAM_FILE_INPUT]);
 	ofstream out(args[PARAM_FILE_OUTPUT]);
 	string line;
 	int empty_lines = 0;
 	while (getline(in, line)) {
-		if (isEmpty(line)) {
+		if (is_string_empty(line)) {
 			empty_lines++;
 		}
 		else {
 			out << line << endl;
-			if (!check_DeepPurpose_validity(line)) {
-				containsDeepPurposeIllegalCharacters = true;
-			}
+			check_DeepPurpose_validity(line);
 		}
 	}
 	if (empty_lines > 0) {
@@ -135,7 +142,7 @@ void rm_empty_lines(unordered_map<string, string> args) {
 	in.close();
 }
 
-void format_tab(unordered_map<string, string> args) {
+void format_tab(Args args) {
 	log("Entered mode tab2smi");
 	ifstream in(args[PARAM_FILE_INPUT]);
 	ofstream out(args[PARAM_FILE_OUTPUT]);
@@ -152,9 +159,7 @@ void format_tab(unordered_map<string, string> args) {
 	string line;
 	while (getline(in, line)) {
 		line_count++;
-		if (!check_DeepPurpose_validity(line)) {
-			containsDeepPurposeIllegalCharacters = true;
-		}
+		check_DeepPurpose_validity(line);
 		vector<string> res = split(line, "\t");
 		for (int i = 0; i < columns.size(); i++) {
 			if (i > 0) out << delimiter;
@@ -165,6 +170,33 @@ void format_tab(unordered_map<string, string> args) {
 	cout << "Formatted " << line_count << " lines as " << args[PARAM_FORMAT] << "." << endl;
 	out.close();
 	in.close();
+}
+
+void embbed_smi(Args args) {
+	ifstream in_sdf(args[PARAM_SDF]);
+	ifstream in_smi(args[PARAM_SMI]);
+	ofstream out(args[PARAM_FILE_OUTPUT]);
+	string line;
+	int smi_num = 0;
+	int missing_smiles = 0;
+	vector<string> smiles;
+	while (getline(in_smi, line)) smiles.push_back(split(line, "\t")[0]);
+	while (getline(in_sdf, line)) {
+		if (line.find("$$$$") != string::npos) {
+			check_DeepPurpose_validity(smiles[smi_num]);
+			missing_smiles += is_string_empty(smiles[smi_num]);
+			out << ">  <Smiles>" << endl;
+			out << smiles[smi_num++] << endl << endl << "$$$$" << endl;
+		}
+		else {
+			out << line << endl;
+		}
+	}
+	cout << "Embedded " << smiles.size() << " smiles into matching sdf file." << endl;
+	cout << "There were " << missing_smiles << " missing smiles (empty lines)." << endl;
+	out.close();
+	in_smi.close();
+	in_sdf.close();
 }
 
 int main(int argc, char** argv)
@@ -193,6 +225,9 @@ int main(int argc, char** argv)
 		}
 		else if (mode == MODE_FORMAT_TAB) {
 			format_tab(args);
+		}
+		else if (mode == MODE_EMBBED_SMI) {
+			embbed_smi(args);
 		}
 		if (containsDeepPurposeIllegalCharacters) {
 			cout << "Warning : file contains character that are not supported by DeepPurpose !";
