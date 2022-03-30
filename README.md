@@ -20,6 +20,10 @@ Program arguments :
   - `--out <file out>` : output file
   - `--format <format>` : columns to keep (e.g. "3,1" : columns 3 then 1)
   - `--delim <delimiter>` : delimiter to write between columns
+- `--sdfsmi` : embbed smiles into sdf
+  - `--sdf <sdf file in>` : input .sdf file
+  - `--smi <smi file in>` : input .smi file
+  - `--out <file out>` : output file 
 
 - `--debug` : activate debugging logs (this parameter can be used after the mode and between any other parameter, but not between a parameter name and its value (e.g. `--in --debug "myfile.smi` is not correct).
 
