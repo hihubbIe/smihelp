@@ -39,10 +39,8 @@ Example : `./smihelp --tab2smi --in molecules.tab --out molecules.smi --format "
 
 ## --embbedsmisdf
 
-**Not implemented yet**
-
 Embbed molecules from a **.smi** file in a **.sdf** file.  
-Example : `./smihelp --embbedsmisdf --sdf molecules.sdf --smi molecules.smi --out molecules_embbeded.smi`
+Example : `./smihelp --sdfsmi --sdf molecules.sdf --smi molecules.smi --out molecules_embbeded.smi`
 
 ___
 Enjoy ! 
