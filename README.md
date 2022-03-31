@@ -40,7 +40,7 @@ Facing obstacles while using SMILES related files, I decided to automate as much
 
 ## Commands
 
-###--rmempty
+### --rmempty
 
 Remove every line that is either empty, or composed of white space or tabulations.  
 *Example* : `./smihelp --rmempty --in molecules.smi --out molecules_clean.smi`
